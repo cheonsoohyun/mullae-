@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>SooHyun‘s 기말 최소점수 계산기</title>
+<style>
+    body { font-family: Arial; margin: 30px; }
+    input { margin: 5px; padding: 5px; width: 150px; }
+    button { padding: 10px; margin-top: 10px; cursor: pointer; }
+    .box { margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<h2>🎓 SooHyun‘s 기말 최소점수 계산기</h2>
+
+<div class="box">
+    중간고사 점수 :
+    <input type="number" id="mid" placeholder="점수 입력">
+</div>
+
+<div class="box">
+    수행평가 점수 :
+    <input type="number" id="performance" placeholder="점수 입력">
+</div>
+
+<div class="box">
+    목표 학점 선택 :
+    <select id="goal">
+        <option value="A">A(90점 이상)</option>
+        <option value="B">B(80점 이상)</option>
+    </select>
+</div>
+
+<button onclick="calculate()">기말 필요 점수 계산</button>
+
+<h3 id="result"></h3>
+
+<script>
+function calculate() {
+    const mid = parseFloat(document.getElementById("mid").value);
+    const performance = parseFloat(document.getElementById("performance").value);
+    const goal = document.getElementById("goal").value;
+
+    if (isNaN(mid) || isNaN(performance)) {
+        document.getElementById("result").innerHTML = "⚠️ 점수를 정확히 입력하세요!";
+        return;
+    }
+
+    const x = mid * 0.3;
+    const y = performance;
+    
+    const target = (goal === "A") ? 90 : 80;
+    const needed_final = (target - (x + y)) / 0.3;
+
+    let message = "===== 결과 =====<br>";
+
+    if (needed_final <= 0) {
+        message += `이미 ${goal} 달성 가능합니다! 🎉`;
+    } else if (needed_final > 100) {
+        message += `기말에 100점을 맞아도 ${goal} 달성 어려워요 😢`;
+    } else {
+        message += `${goal} 목표 위해<br>기말 최소 <b>${needed_final.toFixed(1)}점</b> 필요합니다!`;
+    }
+
+    document.getElementById("result").innerHTML = message;
+}
+</script>
+
+</body>
+</html>
